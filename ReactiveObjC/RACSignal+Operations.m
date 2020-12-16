@@ -1263,7 +1263,7 @@ static RACDisposable *subscribeForever (RACSignal *signal, void (^next)(id), voi
   }] setNameWithFormat:@"[%@] -all:", self.name];
 }
 
-- (RACSignal *)retry:(NSInteger)retryCount {
+- (RACSignal *)retry:(NSInteger)retryCount when:(BOOL (^)(NSError *error))predicateBlock {
   return [[RACSignal createSignal:^(id<RACSubscriber> subscriber) {
     __block NSInteger currentRetryCount = 0;
     return subscribeForever(self,
@@ -1271,7 +1271,7 @@ static RACDisposable *subscribeForever (RACSignal *signal, void (^next)(id), voi
         [subscriber sendNext:x];
       },
       ^(NSError *error, RACDisposable *disposable) {
-        if (retryCount == 0 || currentRetryCount < retryCount) {
+        if ((retryCount == 0 || currentRetryCount < retryCount) && predicateBlock(error)) {
           // Resubscribe.
           currentRetryCount++;
           return;
@@ -1284,7 +1284,12 @@ static RACDisposable *subscribeForever (RACSignal *signal, void (^next)(id), voi
         [disposable dispose];
         [subscriber sendCompleted];
       });
-  }] setNameWithFormat:@"[%@] -retry: %lu", self.name, (unsigned long)retryCount];
+  }] setNameWithFormat:@"[%@] -retry: %lu when:", self.name, (unsigned long)retryCount];
+}
+
+- (RACSignal *)retry:(NSInteger)retryCount {
+  return [[self retry:retryCount when:^(NSError *error){ return YES; }]
+          setNameWithFormat:@"[%@] -retry: %lu", self.name, (unsigned long)retryCount];
 }
 
 - (RACSignal *)retry {
