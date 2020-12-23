@@ -638,6 +638,19 @@ _Pragma("clang diagnostic pop")
 - (RACSignal<NSNumber *> *)all:(BOOL (^)(id _Nullable object))predicateBlock RAC_WARN_UNUSED_RESULT;
 
 /// Resubscribes to the receiving signal if an error occurs, up until it has
+/// retried the given number of times. Before each retry the given predicate
+/// block is called and in case NO is returned, quits the retry sequence and
+/// errors.
+///
+/// retryCount - if 0, it keeps retrying until it completes, or until predicate
+///              block returns NO.
+/// predicateBlock - A block that is called before each retry. If NO is returned,
+///                  quits the retry sequence regardless of the retry count, and
+///                  errors.
+- (RACSignal<ValueType> *)retry:(NSInteger)retryCount when:(BOOL (^)(NSError *error))predicateBlock
+    RAC_WARN_UNUSED_RESULT;
+
+/// Resubscribes to the receiving signal if an error occurs, up until it has
 /// retried the given number of times.
 ///
 /// retryCount - if 0, it keeps retrying until it completes.
