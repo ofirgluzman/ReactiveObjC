@@ -87,6 +87,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// given to `block` and replay any missed events to new subscribers.
 + (RACSignal<ValueType> *)startLazilyWithScheduler:(RACScheduler *)scheduler block:(void (^)(id<RACSubscriber> subscriber))block RAC_WARN_UNUSED_RESULT;
 
+#ifdef DEBUG
+
+@property (readonly, nonatomic) NSString *initializationSourceSymbol;
+
+#endif
+
 @end
 
 @interface RACSignal<__covariant ValueType> (RACStream)

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		091B262C261E21970087E92F /* RACSourceSymbolExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 091B262A261E21970087E92F /* RACSourceSymbolExtractor.m */; };
+		091B262D261E21970087E92F /* RACSourceSymbolExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 091B262A261E21970087E92F /* RACSourceSymbolExtractor.m */; };
+		091B262E261E21970087E92F /* RACSourceSymbolExtractor.h in Headers */ = {isa = PBXBuildFile; fileRef = 091B262B261E21970087E92F /* RACSourceSymbolExtractor.h */; };
+		091B262F261E21970087E92F /* RACSourceSymbolExtractor.h in Headers */ = {isa = PBXBuildFile; fileRef = 091B262B261E21970087E92F /* RACSourceSymbolExtractor.h */; };
 		314304171ACA8B1E00595017 /* MKAnnotationView+RACSignalSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 314304151ACA8B1E00595017 /* MKAnnotationView+RACSignalSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		314304181ACA8B1E00595017 /* MKAnnotationView+RACSignalSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 314304161ACA8B1E00595017 /* MKAnnotationView+RACSignalSupport.m */; };
 		3A17B4A61E8EFDD500C8999E /* RACAnnotations.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A17B4A51E8EFDCD00C8999E /* RACAnnotations.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -763,6 +767,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		091B262A261E21970087E92F /* RACSourceSymbolExtractor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RACSourceSymbolExtractor.m; sourceTree = "<group>"; };
+		091B262B261E21970087E92F /* RACSourceSymbolExtractor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RACSourceSymbolExtractor.h; sourceTree = "<group>"; };
 		314304151ACA8B1E00595017 /* MKAnnotationView+RACSignalSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+RACSignalSupport.h"; sourceTree = "<group>"; };
 		314304161ACA8B1E00595017 /* MKAnnotationView+RACSignalSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+RACSignalSupport.m"; sourceTree = "<group>"; };
 		3A17B4A51E8EFDCD00C8999E /* RACAnnotations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RACAnnotations.h; sourceTree = "<group>"; };
@@ -1385,6 +1391,8 @@
 				D03764E519EDA41200A782A9 /* UITextField+RACSignalSupport.m */,
 				D03764E619EDA41200A782A9 /* UITextView+RACSignalSupport.h */,
 				D03764E719EDA41200A782A9 /* UITextView+RACSignalSupport.m */,
+				091B262B261E21970087E92F /* RACSourceSymbolExtractor.h */,
+				091B262A261E21970087E92F /* RACSourceSymbolExtractor.m */,
 			);
 			path = ReactiveObjC;
 			sourceTree = "<group>";
@@ -1597,6 +1605,7 @@
 				57A4D22E1BA13D7A00F7D4B1 /* RACSequence.h in Headers */,
 				57A4D22F1BA13D7A00F7D4B1 /* RACSerialDisposable.h in Headers */,
 				57A4D2301BA13D7A00F7D4B1 /* RACSignal.h in Headers */,
+				091B262F261E21970087E92F /* RACSourceSymbolExtractor.h in Headers */,
 				57DC89A81C50679E00E367B7 /* UICollectionReusableView+RACSignalSupport.h in Headers */,
 				57DC89A71C50679700E367B7 /* UIButton+RACCommandSupport.h in Headers */,
 				57A4D2311BA13D7A00F7D4B1 /* RACSignal+Operations.h in Headers */,
@@ -1738,6 +1747,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D037664519EDA41200A782A9 /* UISegmentedControl+RACSignalSupport.h in Headers */,
+				091B262E261E21970087E92F /* RACSourceSymbolExtractor.h in Headers */,
 				D037666419EDA43C00A782A9 /* ReactiveObjC.h in Headers */,
 				D037652519EDA41200A782A9 /* NSObject+RACPropertySubscribing.h in Headers */,
 				D03765B119EDA41200A782A9 /* RACQueueScheduler.h in Headers */,
@@ -2064,6 +2074,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				57D476951C4206EC00EFE697 /* UITableViewCell+RACSignalSupport.m in Sources */,
+				091B262D261E21970087E92F /* RACSourceSymbolExtractor.m in Sources */,
 				57A4D1B21BA13D7A00F7D4B1 /* RACCompoundDisposableProvider.d in Sources */,
 				57D476901C4206D400EFE697 /* UIControl+RACSignalSupportPrivate.m in Sources */,
 				57A4D1B31BA13D7A00F7D4B1 /* RACSignalProvider.d in Sources */,
@@ -2416,6 +2427,7 @@
 				D03764FF19EDA41200A782A9 /* NSEnumerator+RACSequenceAdditions.m in Sources */,
 				8B33C23B21CAA09500BB82D2 /* RACNeverSignal.m in Sources */,
 				D037664719EDA41200A782A9 /* UISegmentedControl+RACSignalSupport.m in Sources */,
+				091B262C261E21970087E92F /* RACSourceSymbolExtractor.m in Sources */,
 				D03764EB19EDA41200A782A9 /* NSArray+RACSequenceAdditions.m in Sources */,
 				D03765C119EDA41200A782A9 /* RACScheduler.m in Sources */,
 				D037662B19EDA41200A782A9 /* UICollectionReusableView+RACSignalSupport.m in Sources */,

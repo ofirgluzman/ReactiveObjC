@@ -25,7 +25,55 @@
 #import "RACTuple.h"
 #import <stdatomic.h>
 
+#if DEBUG
+
+#import "RACSourceSymbolExtractor.h"
+
+@interface RACSignal ()
+
+@property (readonly, nonatomic) NSArray<NSString *> *initializationCallStackSymbols;
+
+@property (readonly, nonatomic) NSLock *initializationSourceSymbolLock;
+
+@property (nonatomic) BOOL didExtractInitializationSourceSymbol;
+
+@end
+
+#endif
+
 @implementation RACSignal
+
+#ifdef DEBUG
+
+@synthesize initializationSourceSymbol = _initializationSourceSymbol;
+
+- (instancetype)init {
+  if (self = [super init]) {
+    // Lightweight.
+    _initializationCallStackSymbols = NSThread.callStackSymbols;
+
+    _initializationSourceSymbolLock = [[NSLock alloc] init];
+
+    self.didExtractInitializationSourceSymbol = NO;
+  }
+
+  return self;
+}
+
+- (NSString *)initializationSourceSymbol {
+  [self.initializationSourceSymbolLock lock];
+  if (!self.didExtractInitializationSourceSymbol) {
+    // Heavy - done lazily (triggered by debugging) and only once per signal instance.
+    _initializationSourceSymbol = RACExtractSourceSymbol(self.initializationCallStackSymbols);
+
+    self.didExtractInitializationSourceSymbol = YES;
+  }
+  [self.initializationSourceSymbolLock unlock];
+
+  return _initializationSourceSymbol;
+}
+
+#endif
 
 #pragma mark Lifecycle
 

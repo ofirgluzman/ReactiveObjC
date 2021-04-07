@@ -65,6 +65,14 @@ static const char *cleanedSignalDescription(RACSignal *signal) {
   return self;
 }
 
+#ifdef DEBUG
+
+- (NSString *)signalInitializationSourceSymbol {
+  return self.signal.initializationSourceSymbol;
+}
+
+#endif
+
 #pragma mark RACSubscriber
 
 - (void)sendNext:(id)value {

@@ -26,4 +26,10 @@
 // Returns an initialized passthrough subscriber.
 - (instancetype)initWithSubscriber:(id<RACSubscriber>)subscriber signal:(RACSignal *)signal disposable:(RACCompoundDisposable *)disposable;
 
+#ifdef DEBUG
+
+@property (readonly, nonatomic) NSString *signalInitializationSourceSymbol;
+
+#endif
+
 @end
