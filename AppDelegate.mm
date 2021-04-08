@@ -7,6 +7,9 @@
 
 #import "AppDelegate.h"
 
+#include <execinfo.h>
+#include <dlfcn.h>
+
 @interface Measurements : NSObject
 
 - (instancetype)initWithCallStackDuration:(NSTimeInterval)callStackDuration
@@ -23,18 +26,40 @@
 @implementation Measurements
 
 + (instancetype)make {
-  auto beforeCallStack = CACurrentMediaTime();
-  auto callStackSymbols = NSThread.callStackSymbols;
-  auto afterCallStack = CACurrentMediaTime();
-  auto callStackDuration = afterCallStack - beforeCallStack;
+//  auto beforeCallStackFetch = CACurrentMediaTime();
+//  auto callStackSymbols = NSThread.callStackSymbols;
+//  auto afterCallStackFetch = CACurrentMediaTime();
+//
+//  auto callStackDuration = afterCallStackFetch - beforeCallStackFetch;
+//
+//  auto perSymbolElementDurations = [NSMutableArray<NSNumber *>
+//                                    arrayWithCapacity:callStackSymbols.count];
+//  for (NSUInteger i = 0; i < callStackSymbols.count; ++i) {
+//    auto before = CACurrentMediaTime();
+//
+//    // Actual evaluation
+//    auto __unused _ = callStackSymbols[i];
+//    auto after = CACurrentMediaTime();
+//
+//    [perSymbolElementDurations addObject:@(after - before)];
+//  }
+
+/// Alternative approach:
+
+  auto maximumAddressesBufferSize = 50;
+  void *addressesBuffer[maximumAddressesBufferSize];
+  auto beforeAddressesFetch = CACurrentMediaTime();
+  auto addressesBufferCount = backtrace(addressesBuffer, maximumAddressesBufferSize);
+  auto afterAddressesFetch = CACurrentMediaTime();
+  auto callStackDuration = afterAddressesFetch - beforeAddressesFetch;
 
   auto perSymbolElementDurations = [NSMutableArray<NSNumber *>
-                                    arrayWithCapacity:callStackSymbols.count];
-  for (NSUInteger i = 0; i < callStackSymbols.count; ++i) {
-    auto before = CACurrentMediaTime();
+                                    arrayWithCapacity:addressesBufferCount];
 
-    // Actual evaluation
-    auto __unused _ = callStackSymbols[i];
+  Dl_info info;
+  for (NSUInteger i = 0; i < addressesBufferCount; ++i) {
+    auto before = CACurrentMediaTime();
+    dladdr(addressesBuffer[i], &info);
     auto after = CACurrentMediaTime();
 
     [perSymbolElementDurations addObject:@(after - before)];

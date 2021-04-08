@@ -7,7 +7,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSString *RACExtractSourceSymbol(NSArray<NSString *> *callStackSymbols);
+NSString * _Nullable RACExtractSourceSymbol(void * _Nonnull * _Nonnull addresses,
+                                            NSUInteger addressesCount);
 
 NS_ASSUME_NONNULL_END
 

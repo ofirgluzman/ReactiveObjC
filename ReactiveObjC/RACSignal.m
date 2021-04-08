@@ -28,12 +28,20 @@
 #if DEBUG
 
 #import "RACSourceSymbolExtractor.h"
+#import <execinfo.h>
+#import <os/lock.h>
 
-@interface RACSignal ()
+#endif
 
-@property (readonly, nonatomic) NSArray<NSString *> *initializationCallStackSymbols;
+#if DEBUG
 
-@property (readonly, nonatomic) NSLock *initializationSourceSymbolLock;
+static const NSUInteger _kMaximumInitializationBacktraceAddresses = 50;
+
+@interface RACSignal () {
+  void *_initializationBacktraceAddresses[_kMaximumInitializationBacktraceAddresses];
+  NSUInteger _initializationBacktraceAddressesCount;
+  os_unfair_lock _initializationSourceSymbolLock;
+}
 
 @property (nonatomic) BOOL didExtractInitializationSourceSymbol;
 
@@ -49,10 +57,10 @@
 
 - (instancetype)init {
   if (self = [super init]) {
-    // Lightweight.
-    _initializationCallStackSymbols = NSThread.callStackSymbols;
-
-    _initializationSourceSymbolLock = [[NSLock alloc] init];
+    _initializationBacktraceAddressesCount =
+        (NSUInteger)backtrace(_initializationBacktraceAddresses,
+                              _kMaximumInitializationBacktraceAddresses);
+    _initializationSourceSymbolLock = OS_UNFAIR_LOCK_INIT;
 
     self.didExtractInitializationSourceSymbol = NO;
   }
@@ -61,14 +69,14 @@
 }
 
 - (NSString *)initializationSourceSymbol {
-  [self.initializationSourceSymbolLock lock];
+  os_unfair_lock_lock(&_initializationSourceSymbolLock);
   if (!self.didExtractInitializationSourceSymbol) {
-    // Heavy - done lazily (triggered by debugging) and only once per signal instance.
-    _initializationSourceSymbol = RACExtractSourceSymbol(self.initializationCallStackSymbols);
+    _initializationSourceSymbol = RACExtractSourceSymbol(_initializationBacktraceAddresses,
+                                                         _initializationBacktraceAddressesCount);
 
     self.didExtractInitializationSourceSymbol = YES;
   }
-  [self.initializationSourceSymbolLock unlock];
+  os_unfair_lock_unlock(&_initializationSourceSymbolLock);
 
   return _initializationSourceSymbol;
 }
